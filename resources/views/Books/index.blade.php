@@ -1,10 +1,13 @@
 @extends('backend.layouts.backend')
 @section('title','index')
 @section('content')
- 
-    <h1>Books</h1>
-    <a href="{{ route('books.create') }}">Create New Book</a>
 
+    
+    <a href="{{ route('books.create') }}">Create New Book</a>
+<div class="container mx-auto px-4">
+    <h1 class="text-2xl font-bold mb-4">Search Books</h1>
+    <livewire:search-book/>
+</div>
     @include('backend.layouts.table')
 
     @if(session('success'))

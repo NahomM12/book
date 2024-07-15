@@ -16,5 +16,6 @@ class Book extends Model
         'author',
         'description',
         'published_year',
+        'file_path',
     ];
 }

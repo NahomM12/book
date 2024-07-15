@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::resource('books',BookController::class);
  
-
+Route::get('/books/{book}/download', [BookController::class, 'download'])->name('books.download');
 
 Route::get('/dashboard', function () {
     return view('dashboard');

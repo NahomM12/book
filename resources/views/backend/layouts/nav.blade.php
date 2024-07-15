@@ -7,7 +7,7 @@
                     </div>
                     <div class="hidden md:block">
                         <div class="ml-10 flex items-baseline space-x-4">
-                            <x-nav-link href="/" :active="request()->is('/index')">Home</x-nav-link>
+                            <x-nav-link href="/books" :active="request()->is('/books')">Home</x-nav-link>
                             <x-nav-link href="/books/create" :active="request()->is('/books/create')">Add Book</x-nav-link>
                             
                         </div>

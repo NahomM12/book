@@ -8,6 +8,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Books - @yield('title')</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    @livewireStyles
 </head>
 
 <body class="h-full">
@@ -22,5 +23,6 @@
         </div>
     </main>
 </div>
+@livewireScripts
 </body>
 </html>
