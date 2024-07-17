@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\BookController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\GoogleBooksController;
 
 Route::resource('books',BookController::class);
  
@@ -17,6 +18,7 @@ Route::get('/new_test', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
+Route::get('/google-books', [GoogleBooksController::class, 'search'])->name('google-books.search');
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
