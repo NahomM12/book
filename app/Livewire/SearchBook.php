@@ -31,4 +31,9 @@ class SearchBook extends Component
                                 ->get();
         }
     }
+
+    public function searchBooks()
+    {
+        $this->updatedSearch();
+    }
 }

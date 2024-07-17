@@ -1,11 +1,17 @@
 <div>
     <div class="mb-4 flex items-center">
         <input 
-            wire:model.debounce.300ms="search" 
+            wire:model.defer="search" 
             type="text" 
             placeholder="Search..."
-            class="w-1/8 px-2 py-1 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
+            class="w-1/8 px-2 py-1 border rounded-l-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
         >
+        <button 
+            wire:click="searchBooks"
+            class="px-3 py-1 bg-blue-500 text-white rounded-r-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
+        >
+            Search
+        </button>
     </div>
 
     <section class="py-1 bg-blueGray-50">
