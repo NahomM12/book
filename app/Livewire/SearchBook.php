@@ -8,17 +8,27 @@ use App\Models\Book;
 class SearchBook extends Component
 {
     public $search = '';
-    public $results = [];
+    public $books = [];
+
+    public function mount()
+    {
+        $this->books = Book::all();
+    }
 
     public function render()
     {
         return view('livewire.search-book');
     }
 
-    public function searchBooks()
+    public function updatedSearch()
     {
-        $this->results = Book::where('title', 'like', '%' . $this->search . '%')
-                             ->orderBy('title')
-                             ->get();
+        if (empty($this->search)) {
+            $this->books = Book::all();
+        } else {
+            $this->books = Book::where('title', 'like', '%' . $this->search . '%')
+                                ->orWhere('author', 'like', '%' . $this->search . '%')
+                                ->orderBy('title')
+                                ->get();
+        }
     }
 }
