@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 
 class GoogleBooksController extends Controller
 {
+    //injecting service container using constructor
     protected $googleBooksService;
 
     public function __construct(GoogleBooksService $googleBooksService)
