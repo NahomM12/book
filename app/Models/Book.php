@@ -17,5 +17,6 @@ class Book extends Model
         'description',
         'published_year',
         'file_path',
+        'cover_path',
     ];
 }
