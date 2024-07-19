@@ -1,56 +1,54 @@
-<div class="relative overflow-hidden">
-    <div class="flex items-center justify-center h-64 transform transition-all duration-500 ease-in-out">
-        @foreach ($books as $index => $book)
-        <div class="book-cover w-40 h-56 rounded-md mr-6 transform transition-all duration-500 ease-in-out opacity-50 scale-90 @if($index == $currentIndex) scale-100 opacity-100 @endif"
-             style="background-image: url('{{ asset('storage/' . $book->file_path) }}');">
-            <div class="title bg-red-500 bg-opacity-50 text-white font-bold px-2 py-1 rounded-t-md">
-                {{ $book->title }}
-            </div>
-            <div class="authors bg-green-500 bg-opacity-50 text-white font-bold px-2 py-1 rounded-b-md">
-                {{ $book->author }}
-            </div>
+<div class="relative">
+    <div class="overflow-hidden">
+        <div class="flex transition-transform duration-300 ease-in-out" x-data="{ activeSlide: 0 }" x-ref="slider">
+            @foreach ($books as $index => $book)
+                <div class="w-full flex-shrink-0" x-show="activeSlide === {{ $index }}">
+                    <div class="p-4">
+                        <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+                            <div class="relative pb-48 overflow-hidden">
+                                @if($book->cover_path)
+                                    <img class="absolute inset-0 h-full w-full object-cover" src="{{ asset('storage/' . $book->cover_path) }}" alt="{{ $book->title }} cover">
+                                @else
+                                    <div class="absolute inset-0 bg-gray-200 flex items-center justify-center">
+                                        <span class="text-gray-500 text-lg">No cover available</span>
+                                    </div>
+                                @endif
+                            </div>
+                            <div class="p-4">
+                                <h2 class="mt-2 mb-2 font-bold">{{ $book->title }}</h2>
+                                <p class="text-sm">{{ $book->author }}</p>
+                                <div class="mt-3 flex items-center">
+                                    <span class="text-sm font-semibold">Year:</span>&nbsp;<span class="font-bold text-xl">{{ $book->year }}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            @endforeach
         </div>
-        @endforeach
     </div>
-    <button wire:click="prevBook" class="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-800 hover:text-gray-900 focus:outline-none">
+    
+    <!-- Navigation arrows -->
+    <button class="absolute left-0 top-1/2 transform -translate-y-1/2 bg-white rounded-full p-2 ml-4 shadow-md"
+            x-on:click="activeSlide = activeSlide === 0 ? {{ count($books) - 1 }} : activeSlide - 1">
         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
         </svg>
     </button>
-    <button wire:click="nextBook" class="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-800 hover:text-gray-900 focus:outline-none">
+    <button class="absolute right-0 top-1/2 transform -translate-y-1/2 bg-white rounded-full p-2 mr-4 shadow-md"
+            x-on:click="activeSlide = activeSlide === {{ count($books) - 1 }} ? 0 : activeSlide + 1">
         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
         </svg>
     </button>
+    
+    <!-- Indicators -->
+    <div class="absolute bottom-0 left-0 right-0 flex justify-center p-4">
+        @foreach ($books as $index => $book)
+            <button class="w-3 h-3 rounded-full mx-1" 
+                    :class="{ 'bg-gray-800': activeSlide === {{ $index }}, 'bg-gray-400': activeSlide !== {{ $index }} }"
+                    x-on:click="activeSlide = {{ $index }}">
+            </button>
+        @endforeach
+    </div>
 </div>
-
-@push('scripts')
-<script>
-    document.addEventListener('livewire:load', function () {
-        Livewire.on('start-auto-transition', function (data) {
-            let interval = data.interval;
-            let autoTransitionTimer;
-
-            function startAutoTransition() {
-                autoTransitionTimer = setInterval(function () {
-                    Livewire.emit('nextBook');
-                }, interval);
-            }
-
-            function stopAutoTransition() {
-                clearInterval(autoTransitionTimer);
-            }
-
-            startAutoTransition();
-
-            document.addEventListener('visibilitychange', function () {
-                if (document.visibilityState === 'visible') {
-                    startAutoTransition();
-                } else {
-                    stopAutoTransition();
-                }
-            });
-        });
-    });
-</script>
-@endpush

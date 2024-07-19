@@ -13,7 +13,7 @@ class BookCarousel extends Component
 
     public function mount()
     {
-        $this->books = Book::all();
+        $this->books = Book::whereNotNull('cover_path')->get();
         $this->startAutoTransition();
     }
 
